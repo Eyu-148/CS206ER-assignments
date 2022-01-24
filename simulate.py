@@ -1,3 +1,4 @@
+
 import pybullet as p
 import time
 
@@ -6,5 +7,5 @@ p.loadSDF("box.sdf")
 for i in range(0,1000):
 	p.stepSimulation()
 	print(i)
-	time.sleep(1/60)
+	time.sleep(1/100)
 p.disconnect()
