@@ -1,3 +1,4 @@
+from cmath import pi
 import imp
 import pybullet as p
 import time
@@ -22,6 +23,18 @@ for i in range(0,5000):
 	# adding the touch sensor to 2 legs
 	frontLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("FrontLeg")
 	backLegSensorValues[i] = pyrosim.Get_Touch_Sensor_Value_For_Link("BackLeg")
+	pyrosim.Set_Motor_For_Joint( 
+		bodyIndex = robotId, 
+		jointName = "Torso_FrontLeg", 
+		controlMode = p.POSITION_CONTROL, 
+		targetPosition = pi/6.0, 
+		maxForce = 500)
+	pyrosim.Set_Motor_For_Joint( 
+		bodyIndex = robotId, 
+		jointName = "Torso_BackLeg", 
+		controlMode = p.POSITION_CONTROL, 
+		targetPosition = -pi/6.0, 
+		maxForce = 500)
 	#print(i)
 	time.sleep(1/100)
 p.disconnect()
