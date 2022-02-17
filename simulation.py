@@ -20,7 +20,7 @@ class SIMULATION:
             p.stepSimulation()
             self.robot.Sense(t)
             self.robot.Act(t)
-            print(t)
+            #print(t)
             time.sleep(1/240)
         '''for s in self.robot.sensors:
             s.Save_Values()

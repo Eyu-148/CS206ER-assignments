@@ -6,7 +6,7 @@ class SENSOR:
     def __init__(self, linkName):
         self.linkName = linkName
         # initialize sensor values vectors
-        self.sensorValues = np.zeros(1000)
+        self.sensorValues = np.zeros(c.maxTimeStep)
 
     # this method store the sensor value at the current time
     # step t into values[]
