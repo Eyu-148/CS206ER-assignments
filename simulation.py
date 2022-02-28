@@ -19,7 +19,8 @@ class SIMULATION:
         for t in range(0,c.maxTimeStep):
             p.stepSimulation()
             self.robot.Sense(t)
-            self.robot.Act(t)
+            self.robot.Think()
+            self.robot.Act()
             #print(t)
             time.sleep(1/240)
         '''for s in self.robot.sensors:
