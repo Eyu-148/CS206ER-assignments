@@ -9,4 +9,4 @@ offset = 0
 freq2 = 5
 #offset2 = np.pi/4
 
-maxTimeStep = 5000
+maxTimeStep = 1000
