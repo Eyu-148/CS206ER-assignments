@@ -9,4 +9,6 @@ offset = 0
 freq2 = 5
 #offset2 = np.pi/4
 
-maxTimeStep = 1000
+maxTimeStep = 70000
+
+numberOfGenerations = 10

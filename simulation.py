@@ -8,8 +8,12 @@ import numpy as np
 import constants as c
 
 class SIMULATION:
-    def __init__(self):
-        self.physicsClient = p.connect(p.GUI)
+    def __init__(self, option):
+        if option == "DIRECT":
+            self.physicsClient = p.connect(p.DIRECT)
+        elif option == "GUI":
+            self.physicsClient = p.connect(p.GUI)
+
         p.setAdditionalSearchPath(pybullet_data.getDataPath())
         p.setGravity(0,0,-9.8)
         self.world = WORLD()
@@ -22,7 +26,7 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act()
             #print(t)
-            time.sleep(1/240)
+            #time.sleep(1/1000)
         '''for s in self.robot.sensors:
             s.Save_Values()
         for m in self.robot.motors:

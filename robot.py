@@ -30,7 +30,7 @@ class ROBOT:
 
     def Think(self):
         self.nn.Update()
-        self.nn.Print()
+        #self.nn.Print()
 
     def Act(self):
         for neuronName in self.nn.Get_Neuron_Names():
@@ -47,3 +47,4 @@ class ROBOT:
         # writing to file
         f = open("fitness.txt", "w")
         f.write(str(xCoordinateOfLinkZero))
+        f.close()
