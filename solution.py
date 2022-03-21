@@ -3,24 +3,55 @@ import random
 import numpy as np
 import pyrosim.pyrosim as pyrosim
 import os
+import time
 
 class SOLUTION:
-    def __init__(self):
+    def __init__(self, myID):
+        self.myID = myID
         self.weights = (np.random.rand(3, 2)) * 2 - 1
 
-    def Evaluate(self, option):
+    '''def Evaluate(self, directOrGUI):
         self.Create_world()
         self.Create_Body()
         self.Create_Brain()
-        os.system("python simulate.py " + option)
-        f = open("fitness.txt", "r")
+        os.system("start /B python3 simulate.py " + directOrGUI + " " + str(self.myID))
+        while not os.path.exists("fitness" + str(self.myID) + ".txt"):
+            time.sleep(0.01)
+        f = open("fitness" + str(self.myID) + ".txt", "r")
         self.fitness = float(f.read())
+        print(self.fitness)
+        f.close()'''
+
+    def Create_Environment(self):
+        self.Create_world()
+        self.Create_Body()
+
+    def Start_Simulation(self, directOrGUI):
+        self.Create_Environment()
+        self.Create_Brain()
+        os.system("start /B python simulate.py " + directOrGUI + " " + str(self.myID))
+
+    def Wait_For_Simulation_To_End(self):
+        while not os.path.exists("fitness" + str(self.myID) + ".txt"):
+            time.sleep(0.01)
+        f = open("fitness" + str(self.myID) + ".txt", "r")
+        self.fitness = float(f.read())
+        #print(self.fitness)
+        #print("solution" + str(self.myID))
         f.close()
+        #TODO: cannot delete fitness.txt file normally
+        os.system("del fitness" + str(self.myID) + ".txt")
 
     def Mutate(self):
         randRow = random.randint(0, 2)
         randCol = random.randint(0, 1)
         self.weights[randRow, randCol] = random.random() * 2 - 1
+
+    def Set_ID(self, childID):
+        self.myID = childID
+
+    def Get_Fitness(self):
+        return self.fitness
 
     def Create_world(self):
         pyrosim.Start_SDF("world.sdf")
@@ -44,7 +75,7 @@ class SOLUTION:
         pyrosim.End()
 
     def Create_Brain(self):
-        pyrosim.Start_NeuralNetwork("brain.nndf")
+        pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
 
         # This particular neuron receives value from sensor stored in Torso.
         pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "Torso")
@@ -53,11 +84,6 @@ class SOLUTION:
 
         pyrosim.Send_Motor_Neuron(name = 3 , jointName = "Torso_BackLeg")
         pyrosim.Send_Motor_Neuron(name = 4 , jointName = "Torso_FrontLeg")
-
-        '''pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=3, weight=1.0)
-        pyrosim.Send_Synapse(sourceNeuronName=1, targetNeuronName=3, weight=2.0)
-        pyrosim.Send_Synapse(sourceNeuronName=0, targetNeuronName=4, weight=1.0)
-        pyrosim.Send_Synapse(sourceNeuronName=2, targetNeuronName=4, weight=2.0)'''
         
         for currentRow in range(0, 3):
             for currentColumn in range(0, 2):
