@@ -9,8 +9,13 @@ offset = 0
 freq2 = 5
 #offset2 = np.pi/4
 
-maxTimeStep = 3000
+maxTimeStep = 5000
 
 numberOfGenerations = 10
 
 populationSize = 10
+
+numSensorNeurons = 4
+numMotorNeurons = 8
+
+motorJointRange = 0.2
