@@ -44,11 +44,11 @@ class ROBOT:
 
     # this method is to get link state and record in a data file
     def Get_Fitness(self):
-        stateOfLinkZero = p.getLinkState(self.robotId, 0)
-        positionOfLinkZero = stateOfLinkZero[0]
-        xCoordinateOfLinkZero = positionOfLinkZero[0]
+        basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
+        basePosition = basePositionAndOrientation[0]
+        xPosition = basePosition[0]
         # writing to file
         f = open("tmp" + str(self.brainID) + ".txt", "w")
-        f.write(str(xCoordinateOfLinkZero))
+        f.write(str(xPosition))
         f.close()
         os.system("rename tmp" + str(self.brainID) + ".txt fitness" + str(self.brainID) + ".txt")
