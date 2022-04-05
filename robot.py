@@ -5,6 +5,7 @@ import constants as c
 from sensor import SENSOR
 from motor import MOTOR
 from pyrosim.neuralNetwork import NEURAL_NETWORK
+import numpy as np
 
 class ROBOT:
     def __init__(self, solutionID):
@@ -28,8 +29,8 @@ class ROBOT:
 
     # this method should iterate all the sensors and call get_value method
     def Sense(self, t):
-        for s in self.sensors:
-            self.sensors[s].Get_Value(t)
+        for linkName in self.sensors:
+            self.sensors[linkName].Get_Value(t)
 
     def Think(self):
         self.nn.Update()
@@ -43,12 +44,26 @@ class ROBOT:
                 self.motors[jointName].Set_Value(self.robotId, desireAngle * c.motorJointRange)
 
     # this method is to get link state and record in a data file
-    def Get_Fitness(self, ):
+    def Get_Fitness(self):
+        # access 4 touch sensors values, compute the means
+        meanOf4Sensors = np.zeros(len(self.sensors))
+        
+        count = 0
+        for linkName in self.sensors:
+            if count < len(self.sensors):
+                meanOf4Sensors[count] = np.mean(self.sensors[linkName].sensorValues)
+            count += 1
+        # compute the mean of the 4 means
+        #print(meanOf4Sensors)
+        meanOfMeans = np.mean(meanOf4Sensors)
+
+        # get the z-axis coordinate
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
-        xPosition = basePosition[0]
+        zPosition = basePosition[2]
+
         # writing to file
         f = open("tmp" + str(self.brainID) + ".txt", "w")
-        f.write(str(xPosition))
+        f.write(str(abs(meanOfMeans) + zPosition))
         f.close()
         os.system("rename tmp" + str(self.brainID) + ".txt fitness" + str(self.brainID) + ".txt")
