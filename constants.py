@@ -1,7 +1,7 @@
 import numpy as np
 
 # set up varibles for simulating
-amp = -np.pi/4
+amp = np.pi/4
 freq = 10
 offset = 0
 
@@ -9,7 +9,8 @@ offset = 0
 freq2 = 5
 #offset2 = np.pi/4
 
-maxTimeStep = 5000
+maxTimeStep = 3000
+sleepTime = 1/1300
 
 numberOfGenerations = 10
 

@@ -46,24 +46,38 @@ class ROBOT:
     # this method is to get link state and record in a data file
     def Get_Fitness(self):
         # access 4 touch sensors values, compute the means
-        meanOf4Sensors = np.zeros(len(self.sensors))
+        # TODO: deliverable2: try --> maximize the length of mean = -1
+        meanAtOneStep = np.zeros(c.maxTimeStep)
+        time = []
         
-        count = 0
-        for linkName in self.sensors:
-            if count < len(self.sensors):
-                meanOf4Sensors[count] = np.mean(self.sensors[linkName].sensorValues)
-            count += 1
-        # compute the mean of the 4 means
-        #print(meanOf4Sensors)
-        meanOfMeans = np.mean(meanOf4Sensors)
+        # initialize a sensor value
+        for t in range(c.maxTimeStep):
+            sv = 0
+            for linkName in self.sensors:
+                if linkName in ('FrontFeet', 'BackFeet', 'LeftFeet', 'RightFeet'):
+                    sv += self.sensors[linkName].sensorValues[t]
+            sv = sv / 4
+            meanAtOneStep[t] = sv
+        #exit()
 
-        # get the z-axis coordinate
+        # calculate the duration of mean = -1
+        duration = 0
+        for i in meanAtOneStep:
+            if i == -1:
+                duration += 1
+            else:
+                time.append(duration)
+                duration = 0
+        # return the max value in time 
+        maxTime = max(time)
+
+        '''#get the z-axis coordinate
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
-        zPosition = basePosition[2]
+        zPosition = basePosition[2]'''
 
         # writing to file
         f = open("tmp" + str(self.brainID) + ".txt", "w")
-        f.write(str(abs(meanOfMeans) + zPosition))
+        f.write(str(maxTime))
         f.close()
         os.system("rename tmp" + str(self.brainID) + ".txt fitness" + str(self.brainID) + ".txt")

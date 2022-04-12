@@ -26,7 +26,7 @@ class SIMULATION:
             self.robot.Think()
             self.robot.Act()
             #print(t)
-            #time.sleep(1/1000)
+            time.sleep(c.sleepTime)
         '''for s in self.robot.sensors:
             s.Save_Values()
         for m in self.robot.motors:

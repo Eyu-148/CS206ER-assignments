@@ -90,7 +90,6 @@ class SOLUTION:
         pyrosim.Start_NeuralNetwork("brain" + str(self.myID) + ".nndf")
 
         # This particular neuron receives value from sensor stored in Torso.
-        #pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "Torso")
         pyrosim.Send_Sensor_Neuron(name = 0 , linkName = "BackFeet")
         pyrosim.Send_Sensor_Neuron(name = 1 , linkName = "FrontFeet")
         pyrosim.Send_Sensor_Neuron(name = 2 , linkName = "LeftFeet")
