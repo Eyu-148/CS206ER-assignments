@@ -1,4 +1,5 @@
 import os
+from statistics import mean
 import pyrosim.pyrosim as pyrosim
 import pybullet as p
 import constants as c
@@ -46,7 +47,6 @@ class ROBOT:
     # this method is to get link state and record in a data file
     def Get_Fitness(self):
         # access 4 touch sensors values, compute the means
-        # TODO: deliverable2: try --> maximize the length of mean = -1
         meanAtOneStep = np.zeros(c.maxTimeStep)
         time = []
         
@@ -70,14 +70,18 @@ class ROBOT:
                 duration = 0
         # return the max value in time 
         maxTime = max(time)
+        # approach2: get average of time
+        avgTime = mean(time)
 
-        '''#get the z-axis coordinate
+        #get the coordinates
         basePositionAndOrientation = p.getBasePositionAndOrientation(self.robotId)
         basePosition = basePositionAndOrientation[0]
-        zPosition = basePosition[2]'''
+        xPosition = basePosition[0]
+        yPosition = basePosition[1]
+        distance = np.sqrt((np.power(xPosition, 2)) + (np.power(yPosition, 2)))
 
         # writing to file
         f = open("tmp" + str(self.brainID) + ".txt", "w")
-        f.write(str(maxTime))
+        f.write(str(maxTime) + '\n' + str(distance))
         f.close()
         os.system("rename tmp" + str(self.brainID) + ".txt fitness" + str(self.brainID) + ".txt")

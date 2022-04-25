@@ -1,3 +1,4 @@
+from cmath import sin
 import numpy as np
 import pyrosim.pyrosim as pyrosim
 import constants as c

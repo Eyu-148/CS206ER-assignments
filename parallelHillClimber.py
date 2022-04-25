@@ -1,4 +1,5 @@
 import solution
+import fitness
 import constants as c
 import copy
 import os
@@ -44,17 +45,19 @@ class Parallel_HILL_CLIMBER:
     def Print(self):
         print("")
         for key in self.parents:
-            print("[", self.parents[key].fitness, self.children[key].fitness, "]")
+            print("Floating Time: [", self.parents[key].fitness.floating, self.children[key].fitness.floating, "]")
+            print("Distance: [", self.parents[key].fitness.distance, self.children[key].fitness.distance, "]")
 
+    # As we select the best one with longest flight duration & distance
     def Show_Best(self):
         bestParent = self.parents[0]
         for p in self.parents:
             if self.parents[p].fitness > bestParent.fitness:
                 bestParent = self.parents[p]
-        bestParent.Start_Simulation("GUI")
+        bestParent.Start_Simulation("GUI", c.sleepTime)
 
     def Evaluate(self, solutions):
-        for i in range(0, c.populationSize):        
-            solutions[i].Start_Simulation("DIRECT")
+        for i in range(0, c.populationSize):       
+            solutions[i].Start_Simulation("DIRECT", 0)
         for i in range(0, c.populationSize):
             solutions[i].Wait_For_Simulation_To_End()

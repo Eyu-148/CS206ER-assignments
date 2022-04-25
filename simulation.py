@@ -19,14 +19,15 @@ class SIMULATION:
         self.world = WORLD()
         self.robot = ROBOT(solutionID)
 
-    def Run(self):
-        for t in range(0,c.maxTimeStep):
+    def Run(self, sleepTime):
+        '''for t in range(0,c.maxTimeStep):
             p.stepSimulation()
             self.robot.Sense(t)
             self.robot.Think()
             self.robot.Act()
             #print(t)
-            time.sleep(c.sleepTime)
+            time.sleep(int(sleepTime))'''
+        pass
         '''for s in self.robot.sensors:
             s.Save_Values()
         for m in self.robot.motors:
